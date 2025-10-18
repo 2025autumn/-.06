@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹소설 체크리스트</title>
+<style>
+  body {
+    background-color: white;
+    color: black;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  h1 {
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 2.3rem;
+    margin-bottom: 30px;
+    letter-spacing: 1.5px;
+  }
+  button {
+    background: none;
+    border: 1px solid black;
+    padding: 10px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-style: italic;
+  }
+  button:hover {
+    background-color: black;
+    color: white;
+  }
+  #passwordSection, #listSection, .novelSection {
+    display: none;
+    text-align: center;
+  }
+  input {
+    border: 1px solid #000;
+    padding: 8px;
+    width: 160px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .novelList button {
+    display: block;
+    margin: 10px auto;
+    width: 250px;
+  }
+  .chapterInput {
+    margin-top: 15px;
+  }
+  a {
+    display: inline-block;
+    margin-top: 20px;
+    color: gray;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>📚 웹소설 체크리스트</h1>
+
+<button id="startBtn">시작하기</button>
+
+<div id="passwordSection">
+  <p>암호를 입력하세요</p>
+  <input type="password" id="passwordInput" placeholder="암호 입력">
+  <button id="confirmBtn">확인</button>
+</div>
+
+<div id="listSection" class="novelList">
+  <h2>소설 선택</h2>
+  <button onclick="showNovel('독자')">전지적 독자 시점</button>
+  <button onclick="showNovel('데뷔')">데뷔 못하면 죽는 병 걸림</button>
+  <button onclick="showNovel('괴담')">괴담에 떨어져도 출근을 해야 하는구나</button>
+</div>
+
+<div id="독자" class="novelSection">
+  <h2>📖 전지적 독자 시점</h2>
+  <div class="chapterInput">
+    <input type="number" id="chapter독자" placeholder="회차 입력">
+    <button onclick="saveChapter('독자')">확인</button>
+  </div>
+  <p id="result독자"></p>
+  <a href="#" onclick="backToList()">← 목록으로 돌아가기</a>
+</div>
+
+<div id="데뷔" class="novelSection">
+  <h2>📖 데뷔 못하면 죽는 병 걸림</h2>
+  <div class="chapterInput">
+    <input type="number" id="chapter데뷔" placeholder="회차 입력">
+    <button onclick="saveChapter('데뷔')">확인</button>
+  </div>
+  <p id="result데뷔"></p>
+  <a href="#" onclick="backToList()">← 목록으로 돌아가기</a>
+</div>
+
+<div id="괴담" class="novelSection">
+  <h2>📖 괴담에 떨어져도 출근을 해야 하는구나</h2>
+  <div class="chapterInput">
+    <input type="number" id="chapter괴담" placeholder="회차 입력">
+    <button onclick="saveChapter('괴담')">확인</button>
+  </div>
+  <p id="result괴담"></p>
+  <a href="#" onclick="backToList()">← 목록으로 돌아가기</a>
+</div>
+
+<script>
+const startBtn = document.getElementById('startBtn');
+const passwordSection = document.getElementById('passwordSection');
+const listSection = document.getElementById('listSection');
+const confirmBtn = document.getElementById('confirmBtn');
+const passwordInput = document.getElementById('passwordInput');
+
+startBtn.onclick = () => {
+  startBtn.style.display = 'none';
+  passwordSection.style.display = 'block';
+};
+
+confirmBtn.onclick = () => {
+  const password = passwordInput.value;
+  if (password === "1234") {
+    passwordSection.style.display = 'none';
+    listSection.style.display = 'block';
+  } else {
+    alert('암호가 틀렸습니다.');
+  }
+};
+
+function showNovel(id) {
+  listSection.style.display = 'none';
+  document.getElementById(id).style.display = 'block';
+}
+
+function saveChapter(id) {
+  const input = document.getElementById(`chapter${id}`);
+  const result = document.getElementById(`result${id}`);
+  const value = input.value;
+  if (value) {
+    const today = new Date().toISOString().split('T')[0];
+    result.textContent = `${value}화 (${today})`;
+  } else {
+    alert("회차를 입력해주세요!");
+  }
+}
+
+function backToList() {
+  document.querySelectorAll('.novelSection').forEach(sec => sec.style.display = 'none');
+  listSection.style.display = 'block';
+}
+</script>
+
+</body>
+</html>
